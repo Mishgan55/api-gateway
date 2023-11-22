@@ -9,15 +9,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-
+    //\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+//.\bin\windows\kafka-server-.start.bat .\config\server.properties
     @Override
      public void configure(HttpSecurity http) throws Exception {
         http
                 ////todo autorization
+                .csrf()
+                .csrfTokenRepository(csrfTokenRepository())
+                .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
@@ -25,6 +31,11 @@ public class SecurityConfiguration extends SecurityConfigurerAdapter<DefaultSecu
                 .formLogin(Customizer.withDefaults())
                 .sessionManagement()
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy());
+    }
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-CSRF-TOKEN");
+        return repository;
     }
     @Bean
     public SessionAuthenticationStrategy sessionAuthenticationStrategy() {

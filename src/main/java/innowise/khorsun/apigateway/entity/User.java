@@ -43,8 +43,6 @@ public class User {
     private String email;
     @Column(name = "phone_number")
     @NotEmpty(message = "Phone number should not be empty!")
-//    @Pattern(regexp = "^\\+\\d{12}$", message ="Invalid phone number," +
-//            " write down your number using this pattern +375001234567")
     private String phoneNumber;
     @Column(name = "password")
     private String password;

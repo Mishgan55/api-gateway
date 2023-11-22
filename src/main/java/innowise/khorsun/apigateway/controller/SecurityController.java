@@ -15,7 +15,6 @@ public class SecurityController {
     public SecurityController(UserService userService) {
         this.userService = userService;
     }
-//
     @GetMapping("/save")
     public void currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken){
         userService.handleSuccessAuthentication(oAuth2AuthenticationToken);
